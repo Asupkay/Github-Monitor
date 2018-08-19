@@ -1,7 +1,7 @@
+const apiRoutes = require('./api');
+
 const constructorMethod = (app) => {
-  app.use('/github', (req, res) => {
-    res.json({message: 'Github'});
-  });
+  app.use('/api', apiRoutes); 
   app.use('/', (req, res) => {
     res.json({message: 'Not yet implemented'});
   });
