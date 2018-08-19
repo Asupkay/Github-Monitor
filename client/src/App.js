@@ -13,7 +13,7 @@ class App extends Component {
   }
   
   callApi = async () => {
-    const response = await axios.get('/github');
+    const response = await axios.get('/api/github/repositorie');
     console.log(response);
     const message = response.data.message;
     this.setState({response: message});
