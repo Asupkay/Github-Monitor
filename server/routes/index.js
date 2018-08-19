@@ -13,49 +13,7 @@ const constructorMethod = (app) => {
 }
 
 /*
-{
-  viewer {
-    repositories(first: 50) {
-      nodes{
-        id
-        name
-        pushedAt
-        url
-        collaborators(first: 10) {
-          nodes{
-            name
-            avatarUrl
-          }
-          totalCount
-        }
-        defaultBranchRef{
-          target{
-            ... on Commit{
-              history(first: 1) {
-                nodes{
-                  additions
-                  deletions
-                  author{
-                    name
-                    avatarUrl
-                  }
-                  pushedDate
-                  message
-                }
-                totalCount
-              }
-              
-            }
-          }
-        }
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-    }
-  }
-}
+
 */   
 
 module.exports = constructorMethod;

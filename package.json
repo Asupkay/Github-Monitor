@@ -1,12 +1,25 @@
 {
   "name": "github-monitor",
   "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
   "scripts": {
-    "client": "cd client && yarn start",
-    "server": "cd server && npm start",
-    "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+    "client": "cd client && npm start",
+    "server": "cd server && node app.js",
+    "devserver": "cd server && nodemon app.js",
+    "start": "npm run-script server",
+    "dev": "concurrently --kill-others-on-fail \"yarn devserver\" \"yarn client\""
+  },
+  "author": "Alex Supkay",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3"
   },
   "devDependencies": {
-    "concurrently": "3.5.0"
+    "concurrently": "3.5.0",
+    "nodemon": "^1.18.3"
   }
 }
