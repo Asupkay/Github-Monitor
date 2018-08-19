@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  console.log(req.body);
+  console.log("hello" + JSON.stringify(req.body));
 });
 
 module.exports = router;
