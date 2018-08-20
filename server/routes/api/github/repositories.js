@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', (req, res) => {
   console.log("hello" + JSON.stringify(req.body));
+  req.io.emit('asupkay', 'update');
 });
 
 module.exports = router;
