@@ -20,6 +20,7 @@ const underline = {
 const Repo = (props) => {
   const { repo } = props;
   const commit = repo.defaultBranchRef.target.history.nodes[0];
+  const totalCount = repo.defaultBranchRef.target.history.totalCount;
   const { author, additions, deletions, message } = commit;
 
   let coloring = {
@@ -36,6 +37,7 @@ const Repo = (props) => {
         <a href={repo.url}><h2 className="card-title" style = { header2Size }>{ repo.name }</h2></a>
         <h3 className="card-subtitle mb-2 text-muted" style = { header3Size }>Last Push: { (new Date(repo.pushedAt)).toLocaleString() }</h3>
         <div style={{textAlign: "left"}}>
+          <p className="card-text"><span style={ underline }>Total Commits:</span> { totalCount }</p>
           <p className="card-text" style={ inlineStyling }><span style={ underline }>Last Commiter:</span> </p>
           <User author={ author }/>
           <p className="card-text"><span style={ underline }>Message:</span> { message }</p>
