@@ -22,8 +22,16 @@ const Repo = (props) => {
   const commit = repo.defaultBranchRef.target.history.nodes[0];
   const { author } = commit;
 
+  let coloring = {
+    backgroundColor: 'inherit'
+  }
+
+  if(props.mostRecentPush === repo.id) {
+    coloring.backgroundColor = 'yellow'
+  }
+
   return (
-    <div className="card col-12 col-md-6 col-lg-4">
+    <div className="card col-12 col-md-6 col-lg-4" style={ coloring }>
       <div className="card-body">
         <h2 className="card-title" style = { header2Size }>{ repo.name }</h2>
         <h3 className="card-subtitle mb-2 text-muted" style = { header3Size }>Last Push: { (new Date(repo.pushedAt)).toLocaleString() }</h3>
