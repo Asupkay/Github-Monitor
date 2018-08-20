@@ -20,7 +20,7 @@ const underline = {
 const Repo = (props) => {
   const { repo } = props;
   const commit = repo.defaultBranchRef.target.history.nodes[0];
-  const { author } = commit;
+  const { author, additions, deletions, message } = commit;
 
   let coloring = {
     backgroundColor: 'inherit'
@@ -38,7 +38,11 @@ const Repo = (props) => {
         <div style={{textAlign: "left"}}>
           <p className="card-text" style={ inlineStyling }><span style={ underline }>Last Commiter:</span> </p>
           <User author={ author }/>
-          <p className="card-text"><span style={ underline }>Message:</span> { commit.message }</p>
+          <p className="card-text"><span style={ underline }>Message:</span> { message }</p>
+          <div>
+            <p className="card-text" style={ inlineStyling }><span style={ underline }>Additions:</span> <span style={{color: 'green'}}> +{ additions }</span></p>
+            <p className="card-text" style={{display: 'inline', float: 'right' }}> <span style={ underline }>Deletions:</span> <span style={{color: 'red'}}>-{deletions}</span> </p>
+          </div>
         </div>
       </div>
     </div> 
