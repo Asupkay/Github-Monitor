@@ -6,7 +6,8 @@ const repositoryInfoQuery = "query { viewer { repositories(first: 50) { nodes{ i
 
 router.get('/', async (req, res) => {
   let response = await axios.post('https://api.github.com/graphql', {query: repositoryInfoQuery}, { headers: {'Authorization': `bearer ${process.env.GITHUB_API_KEY}`}});
-  res.json(response.data);
+  let repositories = response.data.data.viewer.repositories.nodes
+  res.json({repositories: repositories});
 });
 
 router.post('/', (req, res) => {
