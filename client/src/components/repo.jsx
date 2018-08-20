@@ -33,7 +33,7 @@ const Repo = (props) => {
   return (
     <div className="card col-12 col-md-6 col-lg-4" style={ coloring }>
       <div className="card-body">
-        <h2 className="card-title" style = { header2Size }>{ repo.name }</h2>
+        <a href={repo.url}><h2 className="card-title" style = { header2Size }>{ repo.name }</h2></a>
         <h3 className="card-subtitle mb-2 text-muted" style = { header3Size }>Last Push: { (new Date(repo.pushedAt)).toLocaleString() }</h3>
         <div style={{textAlign: "left"}}>
           <p className="card-text" style={ inlineStyling }><span style={ underline }>Last Commiter:</span> </p>
