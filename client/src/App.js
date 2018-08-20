@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import Repos from './components/repos';
+import NavBar from './components/navBar';
+
+const containerMargin = {
+  margin: '10px auto 10px auto'
+}
 
 class App extends Component {
   state = {
@@ -23,11 +27,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <article className="container">
+        <NavBar/>
+        <article className="container" style={ containerMargin }>
           <Repos repos={this.state.repositories}/>
         </article>
       </div>
