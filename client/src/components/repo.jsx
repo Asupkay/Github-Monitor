@@ -2,11 +2,11 @@ import React from 'react';
 import User from './user';
 
 const header2Size = {
-  fontSize: '2.0em'
+  fontSize: '1.5em'
 }
 
 const header3Size = {
-  fontSize: '1.2em'
+  fontSize: '1.1em'
 }
 
 const inlineStyling = {
