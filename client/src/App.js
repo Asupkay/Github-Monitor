@@ -6,16 +6,16 @@ import Repos from './components/repos';
 
 class App extends Component {
   state = {
-    repositories: []
+    repositories: ""
   };
   
-  componentDidMount() {
+  constructor(props) {
+    super(props)
     this.callApi();
   }
   
   callApi = async () => {
     const response = await axios.get('/api/github/repositories');
-    console.log(response);
     const repos = response.data.repositories;
     this.setState({repositories: repos});
   }
