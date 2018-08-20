@@ -10,8 +10,6 @@ const inlineStyling = {
 
 const User = (props) => {
   const { author } = props;
-  console.log(author)
-  console.log(author.user)
   let authorInfo;
   if(author.user) {
     let name;

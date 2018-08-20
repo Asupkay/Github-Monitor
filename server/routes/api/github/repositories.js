@@ -12,7 +12,8 @@ router.get('/', async (req, res) => {
 
 router.post('/', (req, res) => {
   console.log("hello" + JSON.stringify(req.body));
-  req.io.emit('asupkay', 'update');
+  req.io.in('asupkay').emit('update', req.body);
+  res.json({message: 'success'});
 });
 
 module.exports = router;

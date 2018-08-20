@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
+import io from 'socket.io-client';
 import Repos from './components/repos';
 import NavBar from './components/navBar';
+
 
 const containerMargin = {
   margin: '10px auto 10px auto'
@@ -10,11 +12,23 @@ const containerMargin = {
 
 class App extends Component {
   state = {
-    repositories: ""
+    repositories: "",
+    mostRecentlyUpdated: "",
+    user: "asupkay"
   };
   
-  constructor(props) {
-    super(props)
+  componentDidMount(props) {
+    let socket = io.connect();
+    let user = this.state.user
+    socket.on('connect', function() {
+      socket.emit('room', user);
+    });
+
+    socket.on('update', msg => {
+      console.log(msg);
+      this.setState({mostRecentlyUpdate: msg.repository.id});
+      this.callApi();
+    });
     this.callApi();
   }
   
@@ -29,7 +43,7 @@ class App extends Component {
       <div className="App">
         <NavBar/>
         <article className="container" style={ containerMargin }>
-          <Repos repos={this.state.repositories}/>
+          <Repos mostRecentPush={this.state.mostRecentlyUpdated} repos={this.state.repositories}/>
         </article>
       </div>
     );

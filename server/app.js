@@ -15,9 +15,8 @@ app.use((req, res, next) => {
 });
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
+  socket.on('room', (room) => {
+    socket.join(room);
   });
 });
 
@@ -27,7 +26,7 @@ if(PORT != 5000) {
 
 configRoutes(app);
 
-app.listen(PORT, () => {
+http.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
 
