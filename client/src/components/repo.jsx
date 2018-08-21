@@ -81,7 +81,9 @@ class Repo extends Component {
             <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
               <ModalHeader toggle={this.toggle}>{repo.name} Info</ModalHeader>
               <ModalBody>
-                { this.renderStats() }
+                <ol>
+                  { this.renderStats() }
+                </ol>
               </ModalBody>
               <ModalFooter>
                 <Button color="secondary" onClick={this.toggle}>Close</Button>
@@ -99,7 +101,7 @@ class Repo extends Component {
     if(statistics === "") return <p>Loading...</p>
     if(statistics.error) return <p>{ statistics.error }</p>
     if(statistics.length === 0) return <p>No Contributors</p>
-    return <React.Fragment>{statistics.map(stat => <UserStat key={stat.author.login} stat={ stat }/>)}</React.Fragment>;
+    return <React.Fragment>{statistics.map(stat => <li key={stat.author.login}><UserStat stat={ stat }/></li>)}</React.Fragment>;
   }
 };
 
