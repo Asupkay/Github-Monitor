@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', (req, res) => {
   console.log("hello" + JSON.stringify(req.body));
-  req.io.in('asupkay').emit('update', req.body);
+  req.io.emit('update', req.body);
   res.json({message: 'success'});
 });
 
