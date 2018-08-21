@@ -24,8 +24,18 @@ const User = (props) => {
         <img style={ imgSize }src={ author.user.avatarUrl } alt={name + " avatar"}/>
       </a>
     </React.Fragment>;
+  } else if(author.name) {
+    authorInfo = <React.Fragment>
+      <p className="card-text" style={ inlineStyling }>{ author.name } </p> 
+      <img style={ imgSize }src={ author.avatarUrl } alt={author.name + " avatar"}/>
+    </React.Fragment>;
   } else {
-    authorInfo = <React.Fragment><p className="card-text" style={ inlineStyling }>{ author.name } </p> <img style={ imgSize }src={ author.avatarUrl } alt={author.name + " avatar"}/></React.Fragment>;
+    authorInfo = <React.Fragment>
+      <p className="card-text" style={ inlineStyling }>{ author.login } </p> 
+      <a href={ author.html_url }>
+        <img style={ imgSize }src={ author.avatar_url } alt={author.login + " avatar"}/>
+      </a>
+    </React.Fragment>;
   }
 
   return (
