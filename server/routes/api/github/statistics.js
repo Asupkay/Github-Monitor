@@ -13,11 +13,9 @@ const queryGitHub = async (owner, repo) => {
   try {
     let url = `https://api.github.com/repos/${owner}/${repo}/stats/contributors`;
     response = await axios.get(url, { headers: {'Authorization': `bearer ${process.env.GITHUB_API_KEY}`}});
-    console.log(response.status)
     while(response.status == 202) {
       await sleep(2000);
       response = await axios.get(url, { headers: {'Authorization': `bearer ${process.env.GITHUB_API_KEY}`}}); 
-      console.log(response.status)
     }
   } catch(e) {
     return { error: e.message};

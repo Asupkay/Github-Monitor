@@ -42,9 +42,7 @@ class Repo extends Component {
     let { repo } = this.props;
     let url = `/api/github/statistics?owner=${repo.owner.login}&repo=${repo.name}`;
     const response = await axios.get(url);
-    console.log(response);
     const stats = response.data.stats;
-    console.log(stats);
     this.setState({statistics: stats});
   }
 
