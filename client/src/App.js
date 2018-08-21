@@ -69,15 +69,11 @@ class App extends Component {
           return -1;
         return 0;
       }
-    } else if (this.state.sort === 'lastCommit') {
+    } else {
       sortFunction = (a, b) => {
         let lastPushA = a.defaultBranchRef.target.history.nodes[0].pushedDate;
         let lastPushB = b.defaultBranchRef.target.history.nodes[0].pushedDate;
-        if(lastPushA < lastPushB)
-          return 1;
-        if(lastPushA > lastPushB)
-          return -1;
-        return 0;
+        return new Date(lastPushB) - new Date(lastPushA);
       }
     }
     this.setState(prevState => ({
