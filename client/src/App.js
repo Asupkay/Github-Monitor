@@ -8,11 +8,10 @@ import SortDropDown from './components/sortDropDown';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-require('dotenv').config();
 
 firebase.initializeApp({
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_AUTH_DOMAIN 
+  apiKey: "AIzaSyBGq8RSPjS2tFWKhPQS4n_NSp0f9kCQrFo",
+  authDomain: "github-monitor.firebaseapp.com", 
 })
 
 const containerMargin = {
@@ -42,8 +41,27 @@ class App extends Component {
     ],
     callbacks: {
       signInSuccessWithAuthResult: result => {
-        this.setState({authToken: result.credential.accessToken}
-        ,(() => {this.callApi(this.state.authToken)}));
+        this.setState({
+          authToken: result.credential.accessToken,
+          user: result.user.displayName                
+        }
+        ,(() => {
+          this.callApi(this.state.authToken)
+          let socket = io.connect();
+          let user = this.state.user
+          console.log(user);
+          socket.on('connect', function() {
+            socket.emit('room', user);
+          });
+
+          socket.on('update', msg => {
+            this.setState({mostRecentlyUpdated: msg.repository.id});
+            if(this.state.authToken) {
+              this.callApi();
+            }
+          });
+
+        }));
       }
     }
   }
@@ -52,24 +70,7 @@ class App extends Component {
     window.addEventListener('beforeunload', () => firebase.auth().signOut());
     firebase.auth().onAuthStateChanged(user => {
       this.setState({isSignedIn: !!user})
-      if(user) {
-        this.setState({user: user.displayname});
-      }
     });
-    let socket = io.connect();
-    let user = this.state.user
-    socket.on('connect', function() {
-      socket.emit('room', user);
-    });
-
-    socket.on('update', msg => {
-      this.setState({mostRecentlyUpdated: msg.repository.id});
-      if(this.state.authToken) {
-        this.callApi();
-      }
-    });
-
-    
   }
 
   callApi = async (authToken) => {

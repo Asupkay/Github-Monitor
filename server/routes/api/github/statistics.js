@@ -3,6 +3,7 @@ const axios = require('axios');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
+  console.log(req.query);
   let stats = await queryGitHub(req.query.owner, req.query.repo, req.query.authToken);
   return res.json({stats: stats});
 });
