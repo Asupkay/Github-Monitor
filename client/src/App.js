@@ -49,7 +49,6 @@ class App extends Component {
           this.callApi(this.state.authToken)
           let socket = io.connect();
           let user = this.state.user
-          console.log(user);
           socket.on('connect', function() {
             socket.emit('room', user);
           });
@@ -60,25 +59,32 @@ class App extends Component {
               this.callApi();
             }
           });
-
         }));
       }
     }
   }
- 
+
   componentDidMount(props) {
-    window.addEventListener('beforeunload', () => firebase.auth().signOut());
+    //window.addEventListener('beforeunload', () => firebase.auth().signOut());
     firebase.auth().onAuthStateChanged(user => {
       this.setState({isSignedIn: !!user})
     });
+    if(!this.state.authToken) {
+      firebase.auth().signOut();  
+    }
   }
 
   callApi = async (authToken) => {
     const response = await axios.get(`/api/github/repositories?authToken=${authToken}`);
     const repos = response.data.repositories;
     this.setState({repositories: repos}, () => {
+      this.createWebhooks(this.state.authToken);
       this.sort();
     });
+  }
+
+  createWebhooks = async (authToken) => {
+    axios.post(`/api/github/webhooks?authToken=${authToken}`, this.state.repositories);
   }
 
   onSearchChange = ({target}) => {
