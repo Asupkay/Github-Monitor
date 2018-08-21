@@ -137,7 +137,7 @@ class App extends Component {
           <article className="container" style={ containerMargin }>
             <SortDropDown onChange={ this.onSearchChange } selected={this.state.sort}/>
             <button type="button" className="btn btn-dark" onClick={() => firebase.auth().signOut()}>Sign out!</button>
-            <Repos mostRecentPush={this.state.mostRecentlyUpdated} repos={this.state.repositories}/>
+            <Repos mostRecentPush={this.state.mostRecentlyUpdated} authToken = { this.state.authToken } repos={this.state.repositories}/>
           </article>
         :
           <StyledFirebaseAuth

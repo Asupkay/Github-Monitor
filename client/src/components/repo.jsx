@@ -40,7 +40,7 @@ class Repo extends Component {
 
   getStatisticsInfo = async () => {
     let { repo } = this.props;
-    let url = `/api/github/statistics?owner=${repo.owner.login}&repo=${repo.name}`;
+    let url = `/api/github/statistics?owner=${repo.owner.login}&repo=${repo.name}&authToken=${this.props.authToken}`;
     const response = await axios.get(url);
     const stats = response.data.stats;
     this.setState({statistics: stats});
