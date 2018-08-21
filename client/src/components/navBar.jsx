@@ -8,11 +8,18 @@ const imgStyle = {
 }
 
 const NavBar = (props) => {
+  let title;
+  if(props.user) {
+    title = `Github Monitor for ${props.user}'s Repositories`
+  } else {
+    title = "Github Monitor";
+  }
+
   return (
     <nav className="navbar navbar-dark bg-dark">
       <a className="navbar-brand" href="/">
         <img src={ logo } className="d-inline-block align-top" style={ imgStyle } alt=""/>
-        <p style={{display: 'inline'}}>Github Monitor</p>
+        <p style={{display: 'inline'}}>{ title }</p>
       </a>
     </nav>
   )

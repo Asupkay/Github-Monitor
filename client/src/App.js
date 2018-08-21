@@ -5,7 +5,15 @@ import io from 'socket.io-client';
 import Repos from './components/repos';
 import NavBar from './components/navBar';
 import SortDropDown from './components/sortDropDown';
+import firebase from 'firebase';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
+require('dotenv').config();
 
+console.log(process.env);
+firebase.initializeApp({
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN 
+})
 
 const containerMargin = {
   margin: '10px auto 10px auto'
@@ -15,11 +23,33 @@ class App extends Component {
   state = {
     repositories: "",
     mostRecentlyUpdated: "",
-    user: "asupkay",
-    sort: "alphabetical"
+    user: null,
+    sort: "alphabetical",
+    isSignedIn: false,
+    authToken: null
   };
-  
+ 
+  uiConfig = {
+    signInFlow: "popup",
+    signInOptions: [
+      firebase.auth.GithubAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+      signInSuccessWithAuthResult: result => {
+        this.setState({authToken: result.credential.accessToken}
+        ,(() => {this.callApi(this.state.authToken)}));
+      }
+    }
+  }
+ 
   componentDidMount(props) {
+    window.addEventListener('beforeunload', () => firebase.auth().signOut());
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({isSignedIn: !!user})
+      if(user) {
+        this.setState({user: user.displayname});
+      }
+    });
     let socket = io.connect();
     let user = this.state.user
     socket.on('connect', function() {
@@ -28,13 +58,16 @@ class App extends Component {
 
     socket.on('update', msg => {
       this.setState({mostRecentlyUpdated: msg.repository.id});
-      this.callApi();
+      if(this.state.authToken) {
+        this.callApi();
+      }
     });
-    this.callApi();
+
+    
   }
-  
-  callApi = async () => {
-    const response = await axios.get('/api/github/repositories');
+
+  callApi = async (authToken) => {
+    const response = await axios.get(`/api/github/repositories?authToken=`);
     const repos = response.data.repositories;
     this.setState({repositories: repos}, () => {
       this.sort();
@@ -82,13 +115,30 @@ class App extends Component {
   }
 
   render() {
+    let user;
+    if(firebase.auth().currentUser) {
+      user = firebase.auth().currentUser.displayName;
+    } else {
+      user = null;
+    }
+
+    
+
     return (
       <div className="App">
-        <NavBar/>
-        <article className="container" style={ containerMargin }>
-          <SortDropDown onChange={ this.onSearchChange } selected={this.state.sort}/>
-          <Repos mostRecentPush={this.state.mostRecentlyUpdated} repos={this.state.repositories}/>
-        </article>
+        <NavBar user={ user }/>
+        {this.state.isSignedIn ?
+          <article className="container" style={ containerMargin }>
+            <SortDropDown onChange={ this.onSearchChange } selected={this.state.sort}/>
+            <button type="button" className="btn btn-dark" onClick={() => firebase.auth().signOut()}>Sign out!</button>
+            <Repos mostRecentPush={this.state.mostRecentlyUpdated} repos={this.state.repositories}/>
+          </article>
+        :
+          <StyledFirebaseAuth
+            uiConfig={this.uiConfig}
+            firebaseAuth={firebase.auth()}
+          />
+        }
       </div>
     );
   }
