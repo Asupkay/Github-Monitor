@@ -5,7 +5,9 @@ const router = express.Router();
 const repositoryInfoQuery = "query { viewer { repositories(first: 50) { nodes{ id name pushedAt url owner { login } collaborators(first: 10) { nodes{ name avatarUrl } totalCount } defaultBranchRef{ target{ ... on Commit{ history(first: 1) { nodes{ additions deletions author{ name avatarUrl user{ url avatarUrl name } } pushedDate message } totalCount } } } } } pageInfo { hasNextPage endCursor } } } }"
 
 router.get('/', async (req, res) => {
-  let response = await axios.post('https://api.github.com/graphql', {query: repositoryInfoQuery}, { headers: {'Authorization': `bearer ${process.env.GITHUB_API_KEY}`}});
+  let authToken = req.query.authToken;
+  let response = await axios.post('https://api.github.com/graphql', {query: repositoryInfoQuery}, { headers: {'Authorization': `bearer ${authToken}`}});
+  console.log(response.data);
   let repositories = response.data.data.viewer.repositories.nodes
   res.json({repositories: repositories});
 });
@@ -17,5 +19,6 @@ router.post('/', (req, res) => {
 });
 
 module.exports = router;
+
 
 

@@ -5,11 +5,11 @@ import io from 'socket.io-client';
 import Repos from './components/repos';
 import NavBar from './components/navBar';
 import SortDropDown from './components/sortDropDown';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 require('dotenv').config();
 
-console.log(process.env);
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN 
@@ -32,7 +32,13 @@ class App extends Component {
   uiConfig = {
     signInFlow: "popup",
     signInOptions: [
-      firebase.auth.GithubAuthProvider.PROVIDER_ID
+      {
+        provider: firebase.auth.GithubAuthProvider.PROVIDER_ID,
+        scopes: [
+          'repo',
+          'admin: repo_hook'
+        ]
+      }
     ],
     callbacks: {
       signInSuccessWithAuthResult: result => {
@@ -67,7 +73,7 @@ class App extends Component {
   }
 
   callApi = async (authToken) => {
-    const response = await axios.get(`/api/github/repositories?authToken=`);
+    const response = await axios.get(`/api/github/repositories?authToken=${authToken}`);
     const repos = response.data.repositories;
     this.setState({repositories: repos}, () => {
       this.sort();
