@@ -20,9 +20,7 @@ io.on('connection', (socket) => {
   });
 });
 
-if(PORT != 5000) {
-  app.use(express.static(__dirname + './../client/build'));
-}
+app.use(express.static(__dirname + './../client/build'));
 
 configRoutes(app);
 
