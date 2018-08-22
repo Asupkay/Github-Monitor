@@ -54,6 +54,7 @@ class App extends Component {
           });
 
           socket.on('update', msg => {
+            console.log(msg);
             this.setState({mostRecentlyUpdated: msg.repository.id});
             if(this.state.authToken) {
               this.callApi();
