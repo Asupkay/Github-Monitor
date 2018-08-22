@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
     let repoName = repo.name;
     const url = `https://api.github.com/repos/${owner}/${repoName}/hooks`
     console.log(url);
-    let promise = axios.post(url, {name: 'web', config: {url: 'https://clamflelmo.com', content_type: 'json' }},{ headers: {'Authorization': `bearer ${authToken}`}});
+    let promise = axios.post(url, {name: 'web', config: {url: 'https://clamflelmo.com/api/github/repositories', content_type: 'json' }},{ headers: {'Authorization': `bearer ${authToken}`}});
     promises.push(promise);
   });
 
