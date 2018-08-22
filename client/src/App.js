@@ -57,7 +57,7 @@ class App extends Component {
             console.log(msg);
             this.setState({mostRecentlyUpdated: msg.repository.node_id});
             if(this.state.authToken) {
-              this.callApi();
+              this.callApi(this.state.authToken);
             }
           });
         }));
