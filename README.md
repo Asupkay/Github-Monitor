@@ -1,5 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
+## How To Start
 To run in dev mode do `npm run-script dev` to run in production `npm start`. The webhooks will not work on localhost due to github needing to point to an ip with ssl. (Yeah we actually have SSL).
 
 Below you will find some information on how to perform common tasks.<br>
