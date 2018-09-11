@@ -29,7 +29,7 @@ class App extends Component {
   };
  
   uiConfig = {
-    signInFlow: "popup",
+    signInFlow: "redirect",
     signInOptions: [
       {
         provider: firebase.auth.GithubAuthProvider.PROVIDER_ID,
