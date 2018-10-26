@@ -29,12 +29,16 @@ const User = (props) => {
       <p className="card-text" style={ inlineStyling }>{ author.name } </p> 
       <img style={ imgSize }src={ author.avatarUrl } alt={author.name + " avatar"}/>
     </React.Fragment>;
-  } else {
+  } else if(author.login) {
     authorInfo = <React.Fragment>
       <p className="card-text" style={ inlineStyling }>{ author.login } </p> 
       <a href={ author.html_url }>
         <img style={ imgSize }src={ author.avatar_url } alt={author.login + " avatar"}/>
       </a>
+    </React.Fragment>;
+  } else {
+    authorInfo = <React.Fragment>
+    <p className="card-text" style={ inlineStyling}>{ author }</p>
     </React.Fragment>;
   }
 

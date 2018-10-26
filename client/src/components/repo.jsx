@@ -24,7 +24,7 @@ const underline = {
 class Repo extends Component {
   state = {
     modal: false,
-    statistics: ""
+    statistics: null
   }
 
   openModal = () => {
@@ -48,9 +48,13 @@ class Repo extends Component {
 
   render() {
     const { repo } = this.props;
-    const commit = repo.defaultBranchRef.target.history.nodes[0];
-    const totalCount = repo.defaultBranchRef.target.history.totalCount;
-    const { author, additions, deletions, message } = commit;
+    let commit = {author: "No Author", additions: 0, deletions: 0, message: "No Last Commit"};
+    let totalCount = 0;
+    if(repo.defaultBranchRef) {
+      commit = repo.defaultBranchRef.target.history.nodes[0];
+      totalCount = repo.defaultBranchRef.target.history.totalCount;
+    }
+    const { author, additions,  deletions, message} = commit;
 
     let coloring = {
       backgroundColor: 'inherit'
@@ -98,7 +102,7 @@ class Repo extends Component {
 
   renderStats = () => {
     const { statistics } = this.state;
-    if(statistics === "") return <p>Loading...</p>
+    if(statistics === null) return <p>Loading...</p>
     if(statistics.error) return <p>{ statistics.error }</p>
     if(statistics.length === 0) return <p>No Contributors</p>
     return <React.Fragment>{statistics.map(stat => <li key={stat.author.login}><UserStat stat={ stat }/></li>)}</React.Fragment>;
