@@ -108,8 +108,18 @@ class App extends Component {
       }
     } else if (this.state.sort === 'mostCommits') {
       sortFunction = (a, b) => {
-        let totalCommitsA = a.defaultBranchRef.target.history.totalCount
-        let totalCommitsB = b.defaultBranchRef.target.history.totalCount
+        let totalCommitsA;
+        let totalCommitsB;
+        if(!a.defaultBranchRef) {
+          totalCommitsA = 0;
+        } else {
+          totalCommitsA = a.defaultBranchRef.target.history.totalCount
+        }
+        if(!b.defaultBranchRef) {
+          totalCommitsB = 0;
+        } else {
+          totalCommitsB = b.defaultBranchRef.target.history.totalCount
+        }
         if(totalCommitsA < totalCommitsB)
           return 1;
         if(totalCommitsA > totalCommitsB)
@@ -118,8 +128,18 @@ class App extends Component {
       }
     } else {
       sortFunction = (a, b) => {
-        let lastPushA = a.defaultBranchRef.target.history.nodes[0].pushedDate;
-        let lastPushB = b.defaultBranchRef.target.history.nodes[0].pushedDate;
+        let lastPushA;
+        let lastPushB;
+        if(!a.defaultBranchRef) {
+          lastPushA = 0;  
+        } else {
+          lastPushA = a.defaultBranchRef.target.history.nodes[0].pushedDate;
+        }
+        if(!b.defaultBranchRef) {
+          lastPushB = 0;
+        } else {
+          lastPushB = b.defaultBranchRef.target.history.nodes[0].pushedDate;
+        }
         return new Date(lastPushB) - new Date(lastPushA);
       }
     }
