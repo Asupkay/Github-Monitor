@@ -10,7 +10,7 @@ import 'firebase/auth';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 
 firebase.initializeApp({
-  apiKey: "AIzaSyBGq8RSPjS2tFWKhPQS4n_NSp0f9kCQrFo",
+  apiKey: "AIzaSyCdwKAxn2x1wI8Kma3cC7NLx0LtqJQydwM",
   authDomain: "github-monitor.firebaseapp.com", 
 })
 
